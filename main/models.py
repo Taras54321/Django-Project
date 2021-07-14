@@ -11,3 +11,19 @@ class Task(models.Model):
     class Meta:
         verbose_name = 'Задача'
         verbose_name_plural = 'Задачи'
+
+
+class Registration(models.Model):
+    username = models.CharField('Логин', max_length=50)
+    password = models.CharField('Пароль', max_length=50)
+
+    class Meta:
+        verbose_name = 'Регистрация'
+
+
+class Login(models.Model):
+    username = models.CharField('Логин', max_length=50)
+    password = models.CharField('Пароль', max_length=50)
+
+    class Meta:
+        verbose_name = 'Вход'
