@@ -1,55 +1,25 @@
-from .models import Task, Registration, Login
 from django import forms
-from django.contrib.auth.models import User
-# from django.forms import ModelForm, TextInput, Textarea
+from django.core.exceptions import ValidationError
+
+from .models import *
 
 
-class TaskForm(forms.ModelForm):
-    class Meta:
-        model = Task
-        fields = ['title', 'task']
-        widgets = {'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите название'}),
-                   'task': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Введите описание'})}
-
-
-class RegistrationForm(forms.ModelForm):
-    class Meta:
-        model = Registration
-        fields = ['username', 'password']
-        widgets = {'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите логин'}),
-                   'password': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите пароль'})}
+class AddPostForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['username'].label = 'Логин'
-        self.fields['password'].label = 'Пароль'
+        self.fields['cat'].empty_label = 'Категория не выбрана'
 
-    def clean(self):
-        username = self.cleaned_data['username']
-        if User.objects.filter(username=username).exists():
-            raise forms.ValidationError(f'Логин {username} уже занят. Придумайте другой логин')
-        return self.cleaned_data
-
-
-class LoginForm(forms.ModelForm):
     class Meta:
-        model = Login
-        fields = ['username', 'password']
-        widgets = {'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите логин'}),
-                   'password': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите пароль'})}
+        model = Notebook
+        fields = ['title', 'slug', 'content', 'photo', 'in_stock', 'cat']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-input'}),
+            'content': forms.Textarea(attrs={'cols': 60, 'rows': 10})
+        }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['username'].label = 'Логин'
-        self.fields['password'].label = 'Пароль'
-
-    def clean(self):
-        username = self.cleaned_data['username']
-        password = self.cleaned_data['password']
-        if User.objects.filter(username=username).exists():
-            raise forms.ValidationError(f'Пользователь с логином {username} не найден')
-        user = User.objects.filter(username=username).first()
-        if user:
-            if not user.check_password(password):
-                raise forms.ValidationError('Неверный пароль')
-        return self.cleaned_data
+    def clean_title(self):
+        title = self.cleaned_data['title']
+        if len(title) > 200:
+            raise ValidationError('Длинна превышает 200 символов')
+        return title

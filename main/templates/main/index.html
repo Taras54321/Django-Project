@@ -1,19 +1,21 @@
 {% extends 'main/base.html' %}
 
-{% block title %}
-{{ title }}
-{% endblock %}
-
 {% block content %}
-    <h1>Главная страница</h1>
-    {% if tasks %}
-        {% for el in tasks %}
-            <div class="alert alert-warning mt-1">
-                <h4>{{ el.title }}</h4>
-                <p>{{ el.task }}</p>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p>Нет записей!</p>
-    {% endif %}
+<ul class="list-articles">
+	{% for n in notebooks %}
+	    <li><div class="article-panel">
+	<p class="first">Категория: {{n.cat}}</p>
+</div>
+			{% if n.photo %}
+			    <p><img class="img-article-left thumb" src="{{n.photo.url}}"></p>
+			{% endif %}
+			<h2>{{n.title}}</h2>
+	{% autoescape on %}
+	{{n.content|linebreaks|truncatewords:50}}
+	{% endautoescape %}
+			<div class="clear"></div>
+			<p class="link-read-post"><a href="{{ n.get_absolute_url }}">Смотреть информацию</a></p>
+			</li>
+	{% endfor %}
+</ul>
 {% endblock %}
