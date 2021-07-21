@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'captcha',
     'main.apps.MainConfig',
     'debug_toolbar'
 ]
@@ -58,7 +59,7 @@ ROOT_URLCONF = 'advanced_first.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -136,3 +137,10 @@ MEDIA_URL = '/media/'
 # LOGIN_REDIRECT_URL = '/'
 
 INTERNAL_IPS = ['127.0.0.1', ]
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, 'advanced_first_cache'),
+    }
+}

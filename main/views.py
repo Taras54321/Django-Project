@@ -1,12 +1,12 @@
 from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
-from django.http import HttpResponseNotFound, HttpResponse
+from django.http import HttpResponseNotFound
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Notebook
-from .forms import AddPostForm, RegisterUserForm, LoginUserForm
+from .forms import AddPostForm, RegisterUserForm, LoginUserForm, ContactForm
 from .utils import *
 
 
@@ -57,8 +57,9 @@ class NotebookCategory(DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Категория - ' + str(context['notebooks'][0].cat),
-                                      cat_selected=context['notebooks'][0].cat_id)
+        c = Category.objects.get(slug=self.kwargs['cat_slug'])
+        c_def = self.get_user_context(title='Категория - ' + str(c.name),
+                                      cat_selected=c.pk)
         return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
@@ -94,21 +95,28 @@ class LoginUser(DataMixin, LoginView):
         return reverse_lazy('home')
 
 
+class ContactFormView(DataMixin, FormView):
+    form_class = ContactForm
+    template_name = 'main/contact.html'
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Обратная связь')
+        return dict(list(context.items()) + list(c_def.items()))
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return redirect('home')
+
+
 def about_us(request):
     return render(request, 'main/about_us.html')
-
-
-def contact(request):
-    return HttpResponse('Обратная связь')
 
 
 def logout_user(request):
     logout(request)
     return redirect('login')
-
-
-# def login(request):
-#    return HttpResponse('Авторизация')
 
 
 def page_not_found(request, response):
