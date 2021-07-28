@@ -21,6 +21,7 @@ else:
                         mediaserve, {'document_root': settings.MEDIA_ROOT}),
                     url(f'^{settings.STATIC_URL.lstrip("/")}(?P<path>.*)$',
                         mediaserve, {'document_root': settings.STATIC_ROOT}),
-    ]
+                    ]
+
 
 handler404 = page_not_found

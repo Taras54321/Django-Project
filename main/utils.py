@@ -7,7 +7,7 @@ menu = [{'title': 'О сайте', 'url_name': 'about_us'},
 
 
 class DataMixin:
-    paginate_by = 20
+    paginate_by = 2
 
     def get_user_context(self, **kwargs):
         context = kwargs
@@ -20,3 +20,8 @@ class DataMixin:
         if 'cat_selected' not in context:
             context['cat_selected'] = 0
         return context
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title=self.title)
+        return dict(list(context.items()) + list(c_def.items()))

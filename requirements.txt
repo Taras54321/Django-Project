@@ -5,7 +5,7 @@ cffi==1.14.0
 chardet==3.0.4
 cryptography==2.9.2
 DateTime==4.3
-django==3.2.0
+django==3.2
 django-debug-toolbar==3.2.1
 django-ranged-response==0.2.0
 django-simple-captcha==0.5.14
@@ -28,5 +28,3 @@ sqlparse==0.4.1
 typing-extensions==3.10.0.0
 urllib3==1.25.9
 zope.interface==4.7.1
-
-django==3.2
