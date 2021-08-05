@@ -1,12 +1,12 @@
+<!DOCTYPE html>
 {% load static %}
 {% load main_tags %}
-<!DOCTYPE html>
 <html>
 <head>
 	<title>{{title}}</title>
 	<link type="text/css" href="{% static 'main/css/styles.css' %}" rel="stylesheet" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="shortcut icon" href="{% static 'main/images/main.ico' %}" type="image/x-icon" />
+	<link rel="shortcut icon" href="{% static 'main/images/main1.ico' %}" type="image/x-icon" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -33,7 +33,7 @@
 <table class="table-content" border=0 cellpadding="0" cellspacing="0">
 <tr>
 <!-- Sidebar слева -->
-	<td valign="top" class="left-chapters">
+<td valign="top" class="left-chapters">
 	<ul id="leftchapters">
 		{% if cat_selected == 0 %}
 		    <li class="selected">Все категории</li>
@@ -41,16 +41,16 @@
 		    <li><a href="{% url 'home' %}">Все категории</a></li>
 		{% endif %}
 		{% for c in cats %}
-		{% if c.notebook__count > 0 %}
-			{% if c.pk == cat_selected %}
-		    	<li class="selected">{{c.name}}</li>
-			{% else %}
-		    	<li><a href="{{ c.get_absolute_url }}">{{c.name}}</a> </li>
-			{% endif %}
-		{% endif %}
+		    {% if c.notebook__count > 0 %}
+			    {% if c.pk == cat_selected %}
+		    	    <li class="selected">{{c.name}}</li>
+			    {% else %}
+		    	    <li><a href="{{ c.get_absolute_url }}">{{c.name}}</a></li>
+			    {% endif %}
+		    {% endif %}
 		{% endfor %}
 		<li class="share">
-		<p>Наш канал</p>
+		<p>Обучающий канал</p>
 		<a class="share-yt" href="https://www.youtube.com/channel/UClJzWfGWuGJL2t-3dYKcHTA/playlists" target="_blank" rel="nofollow"></a>
 		</li>
 	</ul>
@@ -70,7 +70,7 @@
 			<ul>
 				{% if page_obj.has_previous %}
 					<li class="page-num">
-						<a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+						<a href="?page={{ page_obj.previous_page_number }}">&lt;-</a>
 					</li>
 				{% endif %}
 				{% for p in paginator.page_range %}
@@ -84,7 +84,7 @@
 				{% endfor %}
 				{% if page_obj.has_next %}
 					<li class="page-num">
-						<a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+						<a href="?page={{ page_obj.next_page_number }}">-&gt;</a>
 					</li>
 				{% endif %}
 			</ul>

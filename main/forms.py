@@ -3,16 +3,16 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from captcha.fields import CaptchaField
+from main.models import Category
 
 
 class AddPostForm(forms.Form):
-    CHOICES = (('0', 'Категория не выбрана'), ('1', 'AMD'), ('2', 'Intel'))
     title = forms.CharField(label='Название', max_length=255, widget=forms.TextInput(attrs={'class': 'form-input'}))
     slug = forms.SlugField(label='URL', max_length=255)
     content = forms.CharField(label='Описание', widget=forms.Textarea(attrs={'cols': 60, 'rows': 10}))
     photo = forms.ImageField(label='Фото')
     in_stock = forms.BooleanField(label='В наличии')
-    cat = forms.ChoiceField(label='Категория', choices=CHOICES)
+    cat = forms.ChoiceField(label='Категория', choices=Category.objects.values_list('id', 'name'))
     price = forms.CharField(label='Цена', max_length=20)
 
     def clean_title(self):

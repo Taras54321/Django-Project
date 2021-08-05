@@ -11,13 +11,13 @@ class NotebookAdmin(admin.ModelAdmin):
     list_editable = ('in_stock',)
     list_filter = ('in_stock', 'price')
     prepopulated_fields = {'slug': ('title',)}
-    fields = ('title', 'slug', 'cat', 'content', 'get_html_photo', 'photo', 'in_stock')
+    fields = ('title', 'slug', 'cat', 'content', 'get_html_photo', 'photo', 'in_stock', 'price')
     readonly_fields = ('get_html_photo', )
     save_on_top = True
 
-    def get_html_photo(self, object):
-        if object.photo:
-            return mark_safe(f'<img src="{object.photo.url}" width=50>')
+    def get_html_photo(self, obj):
+        if obj.photo:
+            return mark_safe(f'<img src="{obj.photo.url}" width=50>')
 
     get_html_photo.short_description = 'Фото'
 

@@ -22,7 +22,7 @@ class Notebook(models.Model):
     class Meta:
         verbose_name = 'Ноутбук'
         verbose_name_plural = 'Ноутбуки'
-        ordering = ['price', 'title']
+        ordering = ['title', 'price']
 
 
 class Category(models.Model):

@@ -17,11 +17,9 @@ class DataMixin:
             user_menu.pop(1)
         context['menu'] = user_menu
         context['cats'] = cats
-        if 'cat_selected' not in context:
-            context['cat_selected'] = 0
         return context
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title=self.title)
+        c_def = self.get_user_context(title=self.title, cat_selected=self.cat_selected)
         return dict(list(context.items()) + list(c_def.items()))
