@@ -5,9 +5,8 @@ from django.http import HttpResponseNotFound
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.detail import SingleObjectMixin
 
-from .forms import AddPostForm, RegisterUserForm, LoginUserForm, ContactForm
+from .forms import AddPostForm, RegisterUserForm, LoginUserForm, ContactForm, SellingForm
 from .utils import *
 
 
@@ -37,7 +36,6 @@ class ShowPost(DataMixin, DetailView):
     slug_url_kwarg = 'post_slug'
     context_object_name = 'post'
     cat_selected = 0
-    # title = SingleObjectMixin.get_object()
 
     def title(self):
         return Notebook.objects.get(slug=self.kwargs['post_slug'])
@@ -100,6 +98,14 @@ class AboutUsView(DataMixin, ListView):
     paginate_by = None
     template_name = 'main/about_us.html'
     title = 'О сайте'
+    cat_selected = 0
+
+
+class SellingPage(LoginRequiredMixin, DataMixin, FormView):
+    form_class = SellingForm
+    template_name = 'main/selling.html'
+    context_object_name = 'selling'
+    title = 'Покупка ноутбука'
     cat_selected = 0
 
 

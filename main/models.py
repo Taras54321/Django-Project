@@ -7,7 +7,6 @@ class Notebook(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название')
     content = models.TextField(blank=True, verbose_name='Описание')
     photo = models.ImageField(upload_to='photos', verbose_name='Фото')
-    # time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время добавления')
     price = models.CharField(max_length=20, verbose_name='Цена')
     in_stock = models.BooleanField(default=True, verbose_name='В наличии')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')

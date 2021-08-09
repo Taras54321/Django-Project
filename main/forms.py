@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from captcha.fields import CaptchaField
-from main.models import Category
+from .models import Category
 
 
 class AddPostForm(forms.Form):
@@ -26,7 +26,6 @@ class RegisterUserForm(UserCreationForm):
     username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
     password2 = forms.CharField(label='Повтор пароля', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
-    # email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'class': 'form-input'}))
 
     class Meta:
         model = User
@@ -43,3 +42,19 @@ class ContactForm(forms.Form):
     email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={'class': 'form-input'}))
     content = forms.CharField(label='Содержание', widget=forms.Textarea(attrs={'cols': 60, 'rows': 10}))
     captcha = CaptchaField()
+
+
+class SellingForm(forms.Form):
+    DELIVERY_METHODS = (('1', 'Самовывоз'),
+                        ('2', 'Нова Пошта'),
+                        ('3', 'Укрпошта'),
+                        ('4', 'Курьером по адресу'))
+    PAYMENT_METHODS = (('1', 'Оплата при получении товара'),
+                       ('2', 'Картой онлайн'),
+                       ('3', 'Безналичная оплата'))
+    first_name = forms.CharField(label='Ваше имя', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    last_name = forms.CharField(label='Ваша фамилия', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    address = forms.CharField(label='Ваш адрес', widget=forms.Textarea(attrs={'cols': 60, 'rows': 2}))
+    delivery_method = forms.ChoiceField(label='Способ доставки', choices=DELIVERY_METHODS)
+    payment_method = forms.ChoiceField(label='Способ оплаты', choices=PAYMENT_METHODS)
+    content = forms.CharField(label='Пожелания', widget=forms.Textarea(attrs={'cols': 60, 'rows': 10}))
