@@ -4,10 +4,10 @@
 <ul class="list-articles">
 	{% for n in notebooks %}
 	    <li><div class="article-panel">
-	<p class="first">Категория: {{n.cat}}</p>
+	<p class="first">Категория: {{ n.cat }}</p>
 </div>
 			{% if n.photo %}
-			    <p><img class="img-article-left thumb" src="{{n.photo.url}}"></p>
+			    <p><img class="img-article-left thumb" src="{{ n.photo.url }}"></p>
 			{% endif %}
 			<h2>{{n.title}}</h2>
 	{% autoescape on %}

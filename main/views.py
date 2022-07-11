@@ -14,7 +14,6 @@ class NotebookHome(DataMixin, ListView):
     template_name = 'main/index.html'
     context_object_name = 'notebooks'
     title = 'Главная страница'
-    cat_selected = 0
 
     def get_queryset(self):
         return Notebook.objects.filter(in_stock=True).select_related('cat')
@@ -27,7 +26,6 @@ class AddPage(LoginRequiredMixin, DataMixin, FormView):
     login_url = reverse_lazy('home')
     raise_exception = True
     title = 'Добавление товара'
-    cat_selected = 0
 
 
 class ShowPost(DataMixin, DetailView):
@@ -35,14 +33,12 @@ class ShowPost(DataMixin, DetailView):
     template_name = 'main/post.html'
     slug_url_kwarg = 'post_slug'
     context_object_name = 'post'
-    cat_selected = 0
 
     def title(self):
         return Notebook.objects.get(slug=self.kwargs['post_slug'])
 
 
 class NotebookCategory(DataMixin, ListView):
-    model = Category
     template_name = 'main/index.html'
     context_object_name = 'notebooks'
     allow_empty = False
@@ -63,7 +59,6 @@ class RegisterUser(DataMixin, CreateView):
     template_name = 'main/register.html'
     success_url = reverse_lazy('login')
     title = 'Регистрация'
-    cat_selected = 0
 
     def form_valid(self, form):
         user = form.save()
@@ -75,7 +70,6 @@ class LoginUser(DataMixin, LoginView):
     form_class = LoginUserForm
     template_name = 'main/login.html'
     title = 'Авторизация'
-    cat_selected = 0
 
     def get_success_url(self):
         return reverse_lazy('home')
@@ -86,7 +80,6 @@ class ContactFormView(DataMixin, FormView):
     template_name = 'main/contact.html'
     success_url = reverse_lazy('home')
     title = 'Обратная связь'
-    cat_selected = 0
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -98,7 +91,6 @@ class AboutUsView(DataMixin, ListView):
     paginate_by = None
     template_name = 'main/about_us.html'
     title = 'О сайте'
-    cat_selected = 0
 
 
 class SellingPage(LoginRequiredMixin, DataMixin, FormView):
@@ -106,7 +98,6 @@ class SellingPage(LoginRequiredMixin, DataMixin, FormView):
     template_name = 'main/selling.html'
     context_object_name = 'selling'
     title = 'Покупка ноутбука'
-    cat_selected = 0
 
 
 def logout_user(request):
